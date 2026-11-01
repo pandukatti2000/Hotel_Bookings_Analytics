@@ -50,10 +50,10 @@ flowchart TB
         DB --> AUDIT
     end
 
-    UI_Layer <==>|HTTP / REST (JSON)| Backend_Layer
-    UI_Layer <==>|Chat Stream / Tool Calls| AI_Layer
-    Backend_Layer ==>|SQLAlchemy / psycopg| VIEW
-    AI_Layer ==>|Read-Only SQL Execution| VIEW
+    ST <-->|"HTTP / REST (JSON)"| API
+    ST <-->|"Chat Stream / Tool Calls"| LG
+    SVC -->|"SQLAlchemy / psycopg"| VIEW
+    EXEC -->|"Read-Only SQL Execution"| VIEW
 ```
 
 ---

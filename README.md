@@ -61,10 +61,10 @@ flowchart TB
         DB --> AUDIT
     end
 
-    UI_Layer <==>|HTTP / REST (JSON)| Backend_Layer
-    UI_Layer <==>|Conversational State| AI_Layer
-    Backend_Layer ==>|SQLAlchemy / psycopg2| VIEW
-    AI_Layer ==>|hotel_readonly User| VIEW
+    ST <-->|"HTTP / REST (JSON)"| API
+    ST <-->|"Conversational State"| LG
+    SVC -->|"SQLAlchemy / psycopg2"| VIEW
+    EXEC -->|"hotel_readonly User"| VIEW
 ```
 
 ---
