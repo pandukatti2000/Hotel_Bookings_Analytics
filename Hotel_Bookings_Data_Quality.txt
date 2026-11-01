@@ -1,0 +1,66 @@
+
+FILE: Booking_Source_and_History.csv
+Rows: 119390 
+Columns: ['country', 'market_segment_id', 'distribution_channel_id', 'is_repeated_guest', 'previous_cancellations', 'previous_bookings_not_canceled', 'deposit_type', 'agent', 'company', 'days_in_waiting_list', 'customer_type', 'Booking_id'] 
+Missing: {'agent': 16340, 'company': 112593, 'country': 488} 
+Duplicate Booking IDs: 0
+
+FILE: Booking_details.csv
+Rows: 119390 
+Columns: ['hotel', 'is_canceled', 'lead_time', 'arrival_date_year', 'arrival_date_month', 'arrival_date_week_number', 'arrival_date_day_of_month', 'stays_in_weekend_nights', 'stays_in_week_nights', 'country', 'Booking_id'] 
+Missing: {'country': 488} 
+Duplicate Booking IDs: 0
+
+FILE: Guest_info.csv
+Rows: 119390 
+Columns: ['adults', 'children', 'babies', 'Booking_id'] 
+Missing: {'children': 4} 
+Duplicate Booking IDs: 6
+
+FILE: Meal_And_Stay_Details.csv
+Rows: 119390 
+Columns: ['meal', 'adr', 'required_car_parking_spaces', 'total_of_special_requests', 'Booking_id'] 
+Missing: {} 
+Duplicate Booking IDs: 0
+
+FILE: Reservation_status.csv
+Rows: 119390 
+Columns: ['reservation_status', 'reservation_status_date', 'Booking_id'] 
+Missing: {} 
+Duplicate Booking IDs: 0
+
+FILE: Room_Details .csv
+Rows: 119390 
+Columns: ['reserved_room_type', 'assigned_room_type', 'booking_changes', 'Unnamed: 3', 'Booking_id'] 
+Missing: {'Unnamed: 3': 119390} 
+Duplicate Booking IDs: 0
+
+FILE: Room_Details.csv
+Rows: 119390 
+Columns: ['reserved_room_type', 'assigned_room_type', 'booking_changes', 'Unnamed: 3', 'Booking_id'] 
+Missing: {'Unnamed: 3': 119390} 
+Duplicate Booking IDs: 0
+
+FILE: country.csv
+Rows: 178 
+Columns: ['country_code', 'country_name'] 
+Missing: {} 
+Duplicate Booking IDs: 0
+
+FILE: distribution_channel.csv
+Rows: 5 
+Columns: ['distribution_channel_id', 'distribution_channel'] 
+Missing: {} 
+Duplicate Booking IDs: 0
+
+FILE: market Segment.csv
+Rows: 8 
+Columns: ['market_segment_id', 'market_segment'] 
+Missing: {} 
+Duplicate Booking IDs: 0
+
+FILE: market_Segment.csv
+Rows: 8 
+Columns: ['market_segment_id', 'market_segment'] 
+Missing: {} 
+Duplicate Booking IDs: 0
