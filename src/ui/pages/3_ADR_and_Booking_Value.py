@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import plotly.graph_objects as go
 from src.ui.components.filters import render_sidebar_filters
 from src.ui.components.charts import create_bar_chart, DARK_THEME_LAYOUT
 from src.services.revenue_service import (
@@ -25,15 +26,33 @@ monthly_data = get_monthly_adr_and_value(
 
 if monthly_data:
     df_m = pd.DataFrame(monthly_data)
+    df_m["mean_adr"] = df_m["mean_adr"].astype(float)
+    df_m["median_adr"] = df_m["median_adr"].astype(float)
     
-    fig = px.line(
-        df_m, x="year_month", y=["mean_adr", "median_adr"],
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(
+        x=df_m["year_month"],
+        y=df_m["mean_adr"],
+        name="Mean ADR ($)",
+        mode="lines+markers",
+        line=dict(color="#58A6FF", width=2.5),
+        marker=dict(size=6)
+    ))
+    fig.add_trace(go.Scatter(
+        x=df_m["year_month"],
+        y=df_m["median_adr"],
+        name="Median ADR ($)",
+        mode="lines+markers",
+        line=dict(color="#3FB950", width=2.5),
+        marker=dict(size=6)
+    ))
+    fig.update_layout(
         title="Monthly Mean ADR vs Median ADR (Outlier Robustness)",
-        labels={"value": "ADR ($)", "variable": "Metric", "year_month": "Month"},
-        template="plotly_dark",
-        color_discrete_map={"mean_adr": "#58A6FF", "median_adr": "#3FB950"}
+        xaxis_title="Month",
+        yaxis_title="ADR ($)",
+        hovermode="x unified",
+        **DARK_THEME_LAYOUT
     )
-    fig.update_layout(**DARK_THEME_LAYOUT)
     st.plotly_chart(fig, use_container_width=True)
 
 st.markdown("---")

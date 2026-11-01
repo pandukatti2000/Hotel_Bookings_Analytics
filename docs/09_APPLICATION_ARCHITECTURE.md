@@ -6,54 +6,71 @@ StayWise AI is engineered as a decoupled, multi-tier analytics and GenAI intelli
 
 ```mermaid
 flowchart TB
-    subgraph UI_Layer [Frontend Layer - Streamlit & Plotly]
+    subgraph UI_Layer [Frontend Layer - Streamlit and Plotly]
         ST[Streamlit Web App]
         P1[Page 1: Executive Overview]
         P2[Page 2: Cancellation Intelligence]
-        P3[Page 3: ADR & Booking Value]
+        P3[Page 3: ADR and Booking Value]
         P4[Page 4: Booking Sources]
         P5[Page 5: Guest Insights]
         P6[Page 6: Room Operations]
         P7[Page 7: AI Analytics Assistant]
-        P8[Page 8: Data Quality & Methodology]
-        ST --> P1 & P2 & P3 & P4 & P5 & P6 & P7 & P8
+        P8[Page 8: Data Quality and Methodology]
+        ST --> P1
+        ST --> P2
+        ST --> P3
+        ST --> P4
+        ST --> P5
+        ST --> P6
+        ST --> P7
+        ST --> P8
     end
 
-    subgraph Backend_Layer [API & Business Logic - FastAPI]
+    subgraph Backend_Layer [API and Business Logic - FastAPI]
         API[FastAPI Gateway]
         AUTH[CORS / Request Validation / Pydantic]
         SVC[Deterministic Analytics Services]
-        API --> AUTH --> SVC
+        API --> AUTH
+        AUTH --> SVC
     end
 
-    subgraph AI_Layer [GenAI Intelligence - LangGraph & OpenAI]
+    subgraph AI_Layer [GenAI Intelligence - LangGraph and OpenAI]
         LG[LangGraph StateGraph Engine]
-        INTENT[Intent Classifier & Router]
+        INTENT[Intent Classifier and Router]
         PLANNER[Analytical Query Planner]
         GEN_SQL[SQL Generation Engine - OpenAI]
-        GLOT[SQLGlot AST Validator & Sanitizer]
+        GLOT[SQLGlot AST Validator and Sanitizer]
         EXEC[Safe Read-Only DB Executor]
-        EXPLAIN[Response Synthesizer & Visualizer]
-        SMITH[LangSmith Tracing & Observability]
+        EXPLAIN[Response Synthesizer and Visualizer]
+        SMITH[LangSmith Tracing and Observability]
 
-        LG --> INTENT --> PLANNER --> GEN_SQL --> GLOT --> EXEC --> EXPLAIN
+        LG --> INTENT
+        INTENT --> PLANNER
+        PLANNER --> GEN_SQL
+        GEN_SQL --> GLOT
+        GLOT --> EXEC
+        EXEC --> EXPLAIN
         LG -.-> SMITH
     end
 
-    subgraph Data_Layer [Data & Storage - PostgreSQL]
+    subgraph Data_Layer [Data and Storage - PostgreSQL]
         DB[(PostgreSQL: hotel_bookings_db)]
         STG[staging Schema]
         CORE[core Schema - 3NF]
         VIEW[analytics.v_hotel_bookings_analytics]
         AUDIT[audit Schema]
-        DB --> STG --> CORE --> VIEW
+        DB --> STG
+        STG --> CORE
+        CORE --> VIEW
         DB --> AUDIT
     end
 
-    ST <-->|"HTTP / REST (JSON)"| API
-    ST <-->|"Chat Stream / Tool Calls"| LG
-    SVC -->|"SQLAlchemy / psycopg"| VIEW
-    EXEC -->|"Read-Only SQL Execution"| VIEW
+    ST -->|REST API| API
+    API -->|JSON Response| ST
+    ST -->|Chat Stream| LG
+    LG -->|AI Explanations| ST
+    SVC -->|SQLAlchemy| VIEW
+    EXEC -->|Read-Only SQL| VIEW
 ```
 
 ---

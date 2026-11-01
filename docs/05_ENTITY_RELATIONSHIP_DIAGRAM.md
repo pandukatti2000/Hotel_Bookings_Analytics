@@ -110,12 +110,9 @@ flowchart TD
         FRS[fct_reservation_status]
     end
 
-    Dimension_Tables --> Analytical_View
-    Relational_Entities --> Analytical_View
-
     subgraph Analytical_View [v_hotel_bookings_analytics]
         direction TB
-        V1["booking_id (PK)"]
+        V1["booking_id PK"]
         V2["hotel, is_canceled, lead_time, arrival_date"]
         V3["stays_weekend, stays_week, total_stay_nights"]
         V4["country_code, country_name"]
@@ -128,7 +125,16 @@ flowchart TD
         V11["reservation_status, reservation_status_date"]
     end
 
-    Analytical_View --> Streamlit["Streamlit Dashboard (StayWise AI)"]
-    Analytical_View --> FastAPI["FastAPI Backend Services"]
-    Analytical_View --> AI_Agent["LangGraph AI SQL Assistant"]
+    DC --> V4
+    DMS --> V5
+    DDC --> V5
+    FB --> V1
+    FGI --> V6
+    FMS --> V7
+    FRO --> V8
+    FRS --> V11
+
+    V1 --> Streamlit["Streamlit Dashboard"]
+    V1 --> FastAPI["FastAPI Backend Services"]
+    V1 --> AI_Agent["LangGraph AI SQL Assistant"]
 ```

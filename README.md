@@ -18,53 +18,69 @@ The platform analyzes **119,390 hotel booking records** across **City Hotel** (7
 
 ```mermaid
 flowchart TB
-    subgraph UI_Layer [Frontend Layer - Streamlit & Plotly]
+    subgraph UI_Layer [Frontend Layer - Streamlit and Plotly]
         ST[Streamlit Multi-Page App]
         P1[1. Executive Overview]
         P2[2. Cancellation Intelligence]
-        P3[3. ADR & Booking Value]
+        P3[3. ADR and Booking Value]
         P4[4. Booking Sources]
         P5[5. Guest Insights]
         P6[6. Room Operations]
         P7[7. AI Analytics Assistant]
-        P8[8. Data Quality & Methodology]
-        ST --> P1 & P2 & P3 & P4 & P5 & P6 & P7 & P8
+        P8[8. Data Quality and Methodology]
+        ST --> P1
+        ST --> P2
+        ST --> P3
+        ST --> P4
+        ST --> P5
+        ST --> P6
+        ST --> P7
+        ST --> P8
     end
 
     subgraph Backend_Layer [API Gateway - FastAPI]
         API[FastAPI REST Gateway]
         AUTH[CORS / Request Validation / Pydantic v2]
         SVC[Deterministic Analytics Services]
-        API --> AUTH --> SVC
+        API --> AUTH
+        AUTH --> SVC
     end
 
-    subgraph AI_Layer [GenAI Layer - LangGraph & OpenAI]
+    subgraph AI_Layer [GenAI Layer - LangGraph and OpenAI]
         LG[LangGraph StateGraph Engine]
-        INTENT[Intent Classifier & Router]
+        INTENT[Intent Classifier and Router]
         GEN_SQL[PostgreSQL SQL Generator]
-        GLOT[SQLGlot AST Validator & Sanitizer]
+        GLOT[SQLGlot AST Validator and Sanitizer]
         EXEC[Restricted Read-Only DB Executor]
         SYNTH[Grounded Response Synthesizer]
         SMITH[LangSmith Observability Tracing]
 
-        LG --> INTENT --> GEN_SQL --> GLOT --> EXEC --> SYNTH
+        LG --> INTENT
+        INTENT --> GEN_SQL
+        GEN_SQL --> GLOT
+        GLOT --> EXEC
+        EXEC --> SYNTH
         LG -.-> SMITH
     end
 
-    subgraph Data_Layer [Data & Storage Layer - PostgreSQL]
+    subgraph Data_Layer [Data and Storage Layer - PostgreSQL]
         DB[(PostgreSQL 18: hotel_bookings_db)]
         STG[staging Schema - Raw Ingestion]
         CORE[core Schema - Normalized 3NF]
         VIEW[analytics.v_hotel_bookings_analytics]
         AUDIT[audit Schema - Reconciliation Logs]
-        DB --> STG --> CORE --> VIEW
+        DB --> STG
+        STG --> CORE
+        CORE --> VIEW
         DB --> AUDIT
     end
 
-    ST <-->|"HTTP / REST (JSON)"| API
-    ST <-->|"Conversational State"| LG
-    SVC -->|"SQLAlchemy / psycopg2"| VIEW
-    EXEC -->|"hotel_readonly User"| VIEW
+    ST -->|REST API| API
+    API -->|JSON Payload| ST
+    ST -->|Chat Context| LG
+    LG -->|AI Insights| ST
+    SVC -->|SQLAlchemy| VIEW
+    EXEC -->|hotel_readonly SQL| VIEW
 ```
 
 ---

@@ -1,4 +1,5 @@
 from typing import Optional, List, Dict, Any, Tuple
+from decimal import Decimal
 from sqlalchemy import text
 from src.db.session import engine
 
@@ -44,4 +45,11 @@ def execute_query(sql_str: str, params: Dict[str, Any] = None) -> List[Dict[str,
     with engine.connect() as conn:
         stmt = text(sql_str)
         result = conn.execute(stmt, params or {})
-        return [dict(row._mapping) for row in result.fetchall()]
+        rows = []
+        for row in result.fetchall():
+            d = dict(row._mapping)
+            for k, v in d.items():
+                if isinstance(v, Decimal):
+                    d[k] = float(v)
+            rows.append(d)
+        return rows
